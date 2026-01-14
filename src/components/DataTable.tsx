@@ -1,6 +1,7 @@
 import { DataTable, type DataTableValue } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useContext, useEffect, useState } from "react";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import DataContext from "../context/DataContext";
 
 const ArtworkTable = () => {
@@ -10,6 +11,7 @@ const ArtworkTable = () => {
     const [pageData, setPageData] = useState<any>({
         first: 0,
         rows: 0
+
     })
 
     const columns: any[] = [
@@ -47,6 +49,8 @@ const ArtworkTable = () => {
         loadData()
     }, [value])
 
+    const navigate = useNavigate()
+
 
     return (
         // <div>
@@ -58,9 +62,10 @@ const ArtworkTable = () => {
             first={pageData.first}
             totalRecords={totalRecords}
             onPage={(e) => {
-                setPageData({ first: e.first, rows: e.rows })
-                location.search = `?page=${(e.page ?? 0) + 1}`;
-
+                setPageData({ first: e.first, rows: e.rows });
+                navigate({
+                    search: `?${createSearchParams({ page: ((e.page ?? 0) + 1).toString() })}`
+                });
             }}
             selection={selectedRows as DataTableValue[]}
             onSelectionChange={(e) => setSelectedRows(e.value)}
