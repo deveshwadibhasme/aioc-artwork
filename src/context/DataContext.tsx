@@ -8,6 +8,8 @@ interface DataContextType {
   loading: boolean;
   error: string | null;
   data: any[] | null,
+  updateRows: boolean,
+  setUpdateRows: React.Dispatch<React.SetStateAction<boolean>>
   // setData: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
@@ -16,6 +18,7 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [data, setData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [updateRows, setUpdateRows] = useState<boolean>(false)
   const location = useLocation()
 
   const [artworks, setArtworks] = useState<Artwork[]>([]);
@@ -25,8 +28,10 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     try {
       const { artworks, pagination } = await fetchData();
+
       setArtworks(Array.from(artworks.values()));
       setData(pagination)
+
     } catch (err) {
       console.error("Fetch failed", err);
       setError('Server Error')
@@ -41,7 +46,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
   return (
-    <DataContext.Provider value={{ artworks, loading, error, data }}>
+    <DataContext.Provider value={{ artworks, loading, error, data, updateRows, setUpdateRows }}>
       {children}
     </DataContext.Provider>
   );

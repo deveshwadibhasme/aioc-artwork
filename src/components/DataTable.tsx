@@ -9,19 +9,23 @@ const ArtworkTable = () => {
     const value = useContext(DataContext)
     const [selectedRows, setSelectedRows] = useState<DataTableValue[] | null>(null);
     const [totalRecords, setTotalRecords] = useState<number>(0);
-    const [pageData, setPageData] = useState<any>({
+    const [pageData, setPageData] = useState<{ first: number, rows: number }>({
         first: 0,
         rows: 0
     })
-
+    console.log(selectedRows);
 
     function loadData(): void {
         setTotalRecords(value?.data?.[0]?.total)
     }
 
     useEffect(() => {
+        setSelectedRows(prevState => [...(prevState || []), ...(value?.artworks?.filter((art) => art.selected === true) || [])])
+    }, [value?.updateRows])
+
+    useEffect(() => {
         loadData()
-    }, [value])
+    }, [value, pageData, value?.artworks])
 
     const navigate = useNavigate()
     if (value?.error) {
@@ -43,14 +47,17 @@ const ArtworkTable = () => {
                     });
                 }}
                 selection={selectedRows as DataTableValue[]}
-                onSelectionChange={(e) => setSelectedRows(e.value)}
+                onSelectionChange={(e) => {
+                    setSelectedRows(e.value)
+                }}
                 dataKey="title"
                 showGridlines
                 paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} artworks"
                 loading={value?.loading}
+
             >
-                <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
+                <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} ></Column>
                 {columns.map((col) => (
                     <Column key={col.field} field={col.field} header={col.header} />
                 ))}
