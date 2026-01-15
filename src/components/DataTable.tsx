@@ -18,6 +18,7 @@ const ArtworkTable = () => {
         setTotalRecords(value?.data?.[0]?.total)
     }
 
+    console.log(selectedRows);
     useEffect(() => {
         setSelectedRows(prevState => [...(prevState || []), ...(value?.artworks?.filter((art) => art.selected === true) || [])])
     }, [value?.updateRows])

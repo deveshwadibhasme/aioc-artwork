@@ -7,11 +7,13 @@ const Header = () => {
 
     const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault()
+        console.log(selectionNumber);
         if (selectionNumber && selectionNumber > 0) {
-            value?.setUpdateRows(true)
+            value?.setUpdateRows(!value.updateRows)
             if (value?.artworks) {
-                for (let i = 0; i < selectionNumber && i < value.artworks.length; i++) { // selectionNumber is guaranteed to be a number here
-                    value.artworks[i].selected = true;
+                for (let i = 0; i < selectionNumber && i < value.artworks.length; i++) {
+                    value.artworks[i].selected = true
+                    console.log(value.artworks[i].selected);
                 }
             }
         }
