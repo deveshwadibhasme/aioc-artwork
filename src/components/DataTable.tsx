@@ -13,7 +13,6 @@ const ArtworkTable = () => {
         first: 0,
         rows: 0
     })
-    console.log(selectedRows);
 
     function loadData(): void {
         setTotalRecords(value?.data?.[0]?.total)

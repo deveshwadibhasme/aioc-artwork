@@ -8,6 +8,16 @@
   align-items: center;
 }
 
+@media (max-width: 400px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+}
+
 .rows-select {
   display: flex;
   justify-content: space-between;
@@ -41,8 +51,8 @@ form button {
   padding-block: 7px;
   padding-inline: 10px;
   position: absolute;
-  top: 2px;
-  right: -25px;
+  top: 1.5px;
+  right: -6px;
   background-color: green;
   border: 0;
 }
